@@ -165,6 +165,8 @@ public class MainMenu : MonoBehaviour
 
     void LoginCallback()
     {
+        Carrot.Instance.UserId = FB.UserId;
+        Carrot.Instance.validateUser(FB.AccessToken);
         FbDebug.Log("call login: " + FB.UserId);
         FB.API("/me?fields=id,first_name,friends.limit(100).fields(first_name,id)", Facebook.HttpMethod.GET, APICallback);
         FB.API ("/app/scores?fields=score,user.limit(20)", Facebook.HttpMethod.GET, ScoresCallback);

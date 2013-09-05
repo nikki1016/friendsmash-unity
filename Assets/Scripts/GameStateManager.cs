@@ -89,6 +89,8 @@ public class GameStateManager : MonoBehaviour
     public static void onFriendSmash()
     {
         if (!ScoringLockout) ++Instance.score;
+        Carrot.ViralObject viral = new Carrot.ViralObject("friend", FriendName, FriendName, (Texture2D)FriendTexture, Instance.friendID);
+        Carrot.Instance.postAction("smash", viral);
     }
 
     public static void onEnemySmash(GameObject enemy)
@@ -110,11 +112,7 @@ public class GameStateManager : MonoBehaviour
         {
             Destroy(t);
         }
-        var query = new Dictionary<string, string>();
-        query["score"] = Instance.score.ToString();
-
-        // xxxxx scores
-        FB.API("/me/scores", Facebook.HttpMethod.POST, delegate(string r) { ; }, query);
+        Carrot.Instance.postHighScore((uint)Instance.score);
 
         Application.LoadLevel("MainMenu");
         Time.timeScale = 0.0f;
